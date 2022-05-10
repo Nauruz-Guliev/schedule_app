@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Schedule</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="Название_Группы">
+        <item>11-101</item>
+        <item>11-102</item>
+        <item>11-103</item>
+        <item>11-104</item>
+        <item>11-105</item>
+    </string-array>
+</resources>
