@@ -9,4 +9,12 @@
         <item>11-104</item>
         <item>11-105</item>
     </string-array>
+    <string-array name="Дни_недели">
+        <item>Понедельник</item>
+        <item>Вторник</item>
+        <item>Среда</item>
+        <item>Четверг</item>
+        <item>Пятница</item>
+        <item>Суббота</item>
+    </string-array>
 </resources>
