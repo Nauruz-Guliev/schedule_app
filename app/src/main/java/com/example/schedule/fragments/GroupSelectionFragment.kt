@@ -2,6 +2,7 @@ package com.example.schedule.fragments
 
 import android.os.Bundle
 import android.transition.TransitionInflater
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,8 @@ import androidx.navigation.fragment.FragmentNavigatorExtras
 import com.example.schedule.R
 import com.example.schedule.databinding.FragmentGroupSelectionBinding
 import com.example.schedule.databinding.FragmentRegistrationBinding
+import com.example.schedule.scheduleParser.Parser
+import org.json.JSONArray
 
 
 class GroupSelectionFragment : Fragment() {
@@ -28,11 +31,15 @@ class GroupSelectionFragment : Fragment() {
         val groupNames = resources.getStringArray(R.array.Название_Группы)
         val arrayAdapter = ArrayAdapter(requireContext(), R.layout.drop_down_item,groupNames)
         binding.GroupsSelectionTextView.setAdapter(arrayAdapter)
+        var parser = arguments?.getSerializable("parser") as Parser
 
+        val bundle = Bundle()
+        bundle.putString("group", "0")
+        bundle.putSerializable("parser",parser)
         //onlicklistener
         binding.groupSaveButton.setOnClickListener {
             val extras = FragmentNavigatorExtras(binding.groupSaveButton to "week_button_transition")
-            Navigation.findNavController(binding.root).navigate(R.id.action_groupSelectionFragment_to_dayOfWeekFragment, null,null, extras)
+            Navigation.findNavController(binding.root).navigate(R.id.action_groupSelectionFragment_to_dayOfWeekFragment, bundle,null, extras)
         }
         return binding.root
     }

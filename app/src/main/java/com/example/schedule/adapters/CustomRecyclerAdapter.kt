@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.schedule.R
 
 //TODO change data type and name in constructor
-class CustomRecyclerAdapter(private val names: List<String>) :
+class CustomRecyclerAdapter(private val names: List<String>, private val room:List<String>) :
     RecyclerView.Adapter<CustomRecyclerAdapter.MyViewHolder>() {
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -25,7 +25,7 @@ class CustomRecyclerAdapter(private val names: List<String>) :
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.largeTextView.text = names[position]
-        holder.smallTextView.text = "кот"
+        holder.smallTextView.text = room[position]
     }
 
     override fun getItemCount(): Int {

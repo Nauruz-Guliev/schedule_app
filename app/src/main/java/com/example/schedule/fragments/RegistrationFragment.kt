@@ -6,10 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import android.widget.Toast
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import com.example.schedule.R
 import com.example.schedule.databinding.FragmentRegistrationBinding
+import com.example.schedule.scheduleParser.Parser
 
 class RegistrationFragment : Fragment(R.layout.fragment_registration) {
     private var _binding: FragmentRegistrationBinding? = null
@@ -20,10 +22,16 @@ class RegistrationFragment : Fragment(R.layout.fragment_registration) {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentRegistrationBinding.inflate(inflater,container,false)
-
         //animations on elements load
         val resize_fade_anim = AnimationUtils.loadAnimation(context, R.anim.resize_fade_anim)
         val resize_cool_anim = AnimationUtils.loadAnimation(context, R.anim.resize_cool_anim)
+
+        var parser = Parser()
+        activity?.let { parser.downloadJson(it.application) }
+        var bundle = Bundle()
+        bundle.putSerializable("parser",parser)
+
+
         binding.registrationSaveButton.startAnimation(resize_fade_anim)
         binding.getToKnowTxtView.startAnimation(resize_fade_anim)
         binding.firstNameInputLayout.startAnimation(resize_cool_anim)
@@ -31,7 +39,7 @@ class RegistrationFragment : Fragment(R.layout.fragment_registration) {
         //
         binding.registrationSaveButton.setOnClickListener {
             val extras = FragmentNavigatorExtras(binding.getToKnowTxtView to "welcome_message")
-            Navigation.findNavController(binding.root).navigate(R.id.action_registrationFragment_to_groupSelectionFragment,null,null, extras)
+            Navigation.findNavController(binding.root).navigate(R.id.action_registrationFragment_to_groupSelectionFragment,bundle,null, extras)
         }
         return binding.root
     }
