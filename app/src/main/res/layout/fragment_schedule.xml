@@ -8,6 +8,7 @@
     tools:context=".fragments.ScheduleFragment">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:layoutAnimation="@anim/layout_rec_anim"
         android:id="@+id/recyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"

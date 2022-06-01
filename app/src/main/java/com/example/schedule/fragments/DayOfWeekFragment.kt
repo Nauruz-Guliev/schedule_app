@@ -7,7 +7,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.ArrayAdapter
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import com.example.schedule.R
@@ -26,43 +28,45 @@ class DayOfWeekFragment : Fragment() {
         _binding = FragmentDayOfWeekBinding.inflate(inflater,container,false)
         //setting up group choices
         val groupNames = resources.getStringArray(R.array.Дни_недели)
+        animateButtons()
+        (activity as AppCompatActivity).supportActionBar?.title =
+            "Выбери день недели"
         val arrayAdapter = ArrayAdapter(requireContext(), R.layout.drop_down_item,groupNames)
         //onlicklistener
         binding.mondayButton.setOnClickListener() {
             arguments?.putString("day", "1")
-            //Log.e("error", parser.arrayListGroup[0])
-            val extras = FragmentNavigatorExtras(binding.mondayButton to "week_button_transition")
-            Navigation.findNavController(binding.root).navigate(R.id.action_dayOfWeekFragment_to_scheduleFragment, arguments,null, extras)
+            arguments?.putString("weekDay", "понедельник")
+            Navigation.findNavController(binding.root).navigate(R.id.action_dayOfWeekFragment_to_scheduleFragment, arguments,null, null)
         }
 
         binding.tuesdayButton.setOnClickListener() {
             arguments?.putString("day", "2")
-            val extras = FragmentNavigatorExtras(binding.tuesdayButton to "week_button_transition")
-            Navigation.findNavController(binding.root).navigate(R.id.action_dayOfWeekFragment_to_scheduleFragment, arguments,null, extras)
+            arguments?.putString("weekDay", "вторник")
+            Navigation.findNavController(binding.root).navigate(R.id.action_dayOfWeekFragment_to_scheduleFragment, arguments,null, null)
         }
 
         binding.wednesdayButton.setOnClickListener() {
             arguments?.putString("day", "3")
-            val extras = FragmentNavigatorExtras(binding.wednesdayButton to "week_button_transition")
-            Navigation.findNavController(binding.root).navigate(R.id.action_dayOfWeekFragment_to_scheduleFragment, arguments,null, extras)
+            arguments?.putString("weekDay", "среда")
+            Navigation.findNavController(binding.root).navigate(R.id.action_dayOfWeekFragment_to_scheduleFragment, arguments,null, null)
         }
 
         binding.thursdayButton.setOnClickListener() {
             arguments?.putString("day", "4")
-            val extras = FragmentNavigatorExtras(binding.thursdayButton to "week_button_transition")
-            Navigation.findNavController(binding.root).navigate(R.id.action_dayOfWeekFragment_to_scheduleFragment, arguments,null, extras)
+            arguments?.putString("weekDay", "четверг")
+            Navigation.findNavController(binding.root).navigate(R.id.action_dayOfWeekFragment_to_scheduleFragment, arguments,null, null)
         }
 
         binding.fridayButton.setOnClickListener() {
             arguments?.putString("day", "5")
-            val extras = FragmentNavigatorExtras(binding.fridayButton to "week_button_transition")
-            Navigation.findNavController(binding.root).navigate(R.id.action_dayOfWeekFragment_to_scheduleFragment, arguments,null, extras)
+            arguments?.putString("weekDay", "пятница")
+            Navigation.findNavController(binding.root).navigate(R.id.action_dayOfWeekFragment_to_scheduleFragment, arguments,null, null)
         }
 
         binding.saturdayButton.setOnClickListener() {
             arguments?.putString("day", "6")
-            val extras = FragmentNavigatorExtras(binding.saturdayButton to "week_button_transition")
-            Navigation.findNavController(binding.root).navigate(R.id.action_dayOfWeekFragment_to_scheduleFragment, arguments,null, extras)
+            arguments?.putString("weekDay", "суббота")
+            Navigation.findNavController(binding.root).navigate(R.id.action_dayOfWeekFragment_to_scheduleFragment, arguments,null, null)
         }
 
         return binding.root
@@ -72,7 +76,15 @@ class DayOfWeekFragment : Fragment() {
         super.onCreate(savedInstanceState)
         val animation = TransitionInflater.from(context).inflateTransition(android.R.transition.fade)
         sharedElementEnterTransition = animation
-        sharedElementEnterTransition = animation
+    }
+    private fun animateButtons(){
+        val resize_fade_anim = AnimationUtils.loadAnimation(context, R.anim.resize)
+        binding.mondayButton.startAnimation(resize_fade_anim)
+        binding.tuesdayButton.startAnimation(resize_fade_anim)
+        binding.wednesdayButton.startAnimation(resize_fade_anim)
+        binding.thursdayButton.startAnimation(resize_fade_anim)
+        binding.fridayButton.startAnimation(resize_fade_anim)
+        binding.saturdayButton.startAnimation(resize_fade_anim)
     }
 
 }

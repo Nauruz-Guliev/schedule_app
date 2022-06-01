@@ -30,6 +30,7 @@
         android:layout_height="wrap_content">
 
         <AutoCompleteTextView
+
             android:text="Выбрать группу"
             android:textStyle="bold"
             android:id="@+id/GroupsSelectionTextView"

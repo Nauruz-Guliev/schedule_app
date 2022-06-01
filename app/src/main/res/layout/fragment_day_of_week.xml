@@ -8,39 +8,33 @@
     tools:context=".fragments.DayOfWeekFragment">
 
     <Button
-        android:transitionName="week_button_transition"
         android:id="@+id/monday_button"
         android:layout_width="300dp"
         android:layout_height="80dp"
         android:text="Понедельник" />
 
     <Button
-        android:transitionName="week_button_transition"
         android:id="@+id/tuesday_button"
         android:layout_width="300dp"
         android:layout_height="80dp"
         android:text="Вторник" />
     <Button
-        android:transitionName="week_button_transition"
         android:id="@+id/wednesday_button"
         android:layout_width="300dp"
         android:layout_height="80dp"
         android:text="Среда" />
 
     <Button
-        android:transitionName="week_button_transition"
         android:id="@+id/thursday_button"
         android:layout_width="300dp"
         android:layout_height="80dp"
         android:text="Четверг" />
     <Button
-        android:transitionName="week_button_transition"
         android:id="@+id/friday_button"
         android:layout_width="300dp"
         android:layout_height="80dp"
         android:text="Пятница" />
     <Button
-        android:transitionName="week_button_transition"
         android:id="@+id/saturday_button"
         android:layout_width="300dp"
         android:layout_height="80dp"
