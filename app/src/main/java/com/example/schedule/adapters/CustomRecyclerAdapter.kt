@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.schedule.R
 
 
-//TODO change data type and name in constructor
 class CustomRecyclerAdapter(private val names: List<String>, private val room:List<String>, private val time:List<String>) :
     RecyclerView.Adapter<CustomRecyclerAdapter.MyViewHolder>() {
     private var lastPosition = -1

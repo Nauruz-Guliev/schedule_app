@@ -36,11 +36,9 @@ class GroupSelectionFragment : Fragment() {
         val arrayAdapter = ArrayAdapter(requireContext(), R.layout.drop_down_item,groupNames)
         binding.GroupsSelectionTextView.setAdapter(arrayAdapter)
         arrayAdapter.notifyDataSetChanged()
-        var parser = arguments?.getSerializable("parser") as Parser
         (activity as AppCompatActivity).supportActionBar?.title =
            "Выбери группу"
         val bundle = Bundle()
-        bundle.putSerializable("parser",parser)
         bundle.putString("name",arguments?.getString("name"))
 
         //onlicklistener

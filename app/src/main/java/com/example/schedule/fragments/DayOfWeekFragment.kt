@@ -31,7 +31,7 @@ class DayOfWeekFragment : Fragment() {
         animateButtons()
         (activity as AppCompatActivity).supportActionBar?.title =
             "Выбери день недели"
-        val arrayAdapter = ArrayAdapter(requireContext(), R.layout.drop_down_item,groupNames)
+        //val arrayAdapter = ArrayAdapter(requireContext(), R.layout.drop_down_item,groupNames)
         //onlicklistener
         binding.mondayButton.setOnClickListener() {
             arguments?.putString("day", "1")

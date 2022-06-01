@@ -1,26 +1,26 @@
 package com.example.schedule.fragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import com.example.schedule.R
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.example.schedule.adapters.CustomRecyclerAdapter
-import com.example.schedule.databinding.FragmentRegistrationBinding
+import com.example.schedule.dataBase.GroupsViewModel
 import com.example.schedule.databinding.FragmentScheduleBinding
-import com.example.schedule.scheduleParser.Parser
+import com.example.schedule.scheduleParser.GroupsConverter
 import org.json.JSONArray
 
 
 class ScheduleFragment : Fragment() {
     private var _binding: FragmentScheduleBinding? = null
     private val binding get() = _binding!!
+    private lateinit var mGroupsViewModel: GroupsViewModel
     private lateinit var names: List<String>
     private var layoutManager: RecyclerView.LayoutManager? = null;
     private var roomRegex = "(в[\\s]{1,5}|ауд.[\\s]{0,2})([А-Я0-9]{2,7})"
@@ -40,26 +40,39 @@ class ScheduleFragment : Fragment() {
             (activity as AppCompatActivity).supportActionBar?.title =
                 arguments?.getString("weekDay")
         }
-        var parser = arguments?.getSerializable("parser") as Parser
         var day = arguments?.getString("day")
         var group = arguments?.getString("group")
-        var jArray = JSONArray(parser.daysArray[Integer.parseInt(day.toString())])
-        var listOfLessons = mutableListOf<String>()
-        var listOfRooms = mutableListOf<String>()
-        var timesList = mutableListOf<String>()
-        for (i in 0..jArray.length() - 1) {
-            var jArr = JSONArray(jArray[i].toString())
-            if (jArr[Integer.parseInt(group.toString())-1].toString() != "") {
-                var result = jArr[Integer.parseInt(group.toString())-1].toString()
-                listOfLessons.add(result.substringBefore("\n"))
-                listOfRooms.add(getRegexResult(result, roomRegex))
-                timesList.add(times[i])
+        val groupsConverter:GroupsConverter = GroupsConverter()
+        mGroupsViewModel = ViewModelProvider(this).get(GroupsViewModel::class.java)
+
+        mGroupsViewModel.readAllData.observe(viewLifecycleOwner, Observer {
+            schGroup ->
+            var array: Array<String?> = arrayOfNulls<String>(8)
+            var i = 0
+            for (item in schGroup) {
+                array[i] = item.groups
+                i++
             }
-        }
-        names = listOfLessons
-        // всегда используйте binding и в других фрагментах
-        binding.recyclerView.layoutManager = LinearLayoutManager(this.context)
-        binding.recyclerView.adapter = CustomRecyclerAdapter(names, listOfRooms, timesList)
+            val jArray = JSONArray(array[Integer.parseInt(day.toString())])
+            var listOfLessons = mutableListOf<String>()
+            var listOfRooms = mutableListOf<String>()
+            var timesList = mutableListOf<String>()
+            for (i in 0..jArray.length() - 1) {
+                var jArr = JSONArray(jArray[i].toString())
+                if (jArr[Integer.parseInt(group.toString())-1].toString() != "") {
+                    var result = jArr[Integer.parseInt(group.toString())-1].toString()
+                    listOfLessons.add(result.substringBefore("\n"))
+                    listOfRooms.add(getRegexResult(result, roomRegex))
+                    timesList.add(times[i])
+                }
+            }
+            names = listOfLessons
+            // всегда используйте binding и в других фрагментах
+            binding.recyclerView.layoutManager = LinearLayoutManager(this.context)
+            binding.recyclerView.adapter = CustomRecyclerAdapter(names, listOfRooms, timesList)
+
+
+        })
 
         return binding.root
     }

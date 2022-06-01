@@ -9,9 +9,11 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import com.example.schedule.R
+import com.example.schedule.dataBase.GroupsViewModel
 import com.example.schedule.databinding.FragmentRegistrationBinding
 import com.example.schedule.scheduleParser.Parser
 
@@ -29,10 +31,12 @@ class RegistrationFragment : Fragment(R.layout.fragment_registration) {
         val resize_cool_anim = AnimationUtils.loadAnimation(context, R.anim.resize_cool_anim)
         (activity as AppCompatActivity).supportActionBar?.title =
             "Расписание ИТИС"
-        var parser = Parser()
+        var parser = Parser(this)
+
+
+
         activity?.let { parser.downloadJson(it.application) }
         var bundle = Bundle()
-        bundle.putSerializable("parser", parser)
         binding.registrationSaveButton.startAnimation(resize_fade_anim)
         binding.getToKnowTxtView.startAnimation(resize_fade_anim)
         binding.firstNameInputLayout.startAnimation(resize_cool_anim)
