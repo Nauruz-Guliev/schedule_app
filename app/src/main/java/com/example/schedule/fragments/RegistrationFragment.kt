@@ -1,5 +1,7 @@
 package com.example.schedule.fragments
 
+import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -9,11 +11,9 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import com.example.schedule.R
-import com.example.schedule.dataBase.GroupsViewModel
 import com.example.schedule.databinding.FragmentRegistrationBinding
 import com.example.schedule.scheduleParser.Parser
 
@@ -32,16 +32,16 @@ class RegistrationFragment : Fragment(R.layout.fragment_registration) {
         (activity as AppCompatActivity).supportActionBar?.title =
             "Расписание ИТИС"
         var parser = Parser(this)
-
-
-
         activity?.let { parser.downloadJson(it.application) }
         var bundle = Bundle()
+        bundle.putSerializable("parser", parser)
         binding.registrationSaveButton.startAnimation(resize_fade_anim)
         binding.getToKnowTxtView.startAnimation(resize_fade_anim)
         binding.firstNameInputLayout.startAnimation(resize_cool_anim)
         binding.lastNameInputLayout.startAnimation(resize_cool_anim)
         //
+        val sp = context?.getSharedPreferences("PreferencesData", MODE_PRIVATE)
+        val editor = sp?.edit()
         binding.registrationSaveButton.setOnClickListener {
             var name = binding.firstNameEditText.text.toString()
             if (name == null || name == "") {
@@ -51,6 +51,7 @@ class RegistrationFragment : Fragment(R.layout.fragment_registration) {
                     Toast.LENGTH_LONG
                 ).show()
             } else {
+                editor?.putString("name", name)?.apply()
                 bundle.putString("name", binding.firstNameEditText.text.toString())
                 val extras = FragmentNavigatorExtras(binding.getToKnowTxtView to "welcome_message")
                 Navigation.findNavController(binding.root).navigate(

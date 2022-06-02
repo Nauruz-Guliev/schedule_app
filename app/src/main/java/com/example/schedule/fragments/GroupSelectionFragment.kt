@@ -1,5 +1,6 @@
 package com.example.schedule.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.transition.TransitionInflater
 import android.util.Log
@@ -40,9 +41,12 @@ class GroupSelectionFragment : Fragment() {
            "Выбери группу"
         val bundle = Bundle()
         bundle.putString("name",arguments?.getString("name"))
+        val sp = context?.getSharedPreferences("PreferencesData", Context.MODE_PRIVATE)
+        val editor = sp?.edit()
 
         //onlicklistener
         binding.groupSaveButton.setOnClickListener {
+            editor?.putString("group", getRegexResult(binding.GroupsSelectionTextView.text.toString(),groupRegex))?.apply()
             bundle.putString("group", getRegexResult(binding.GroupsSelectionTextView.text.toString(),groupRegex))
             Navigation.findNavController(binding.root).navigate(R.id.action_groupSelectionFragment_to_dayOfWeekFragment, bundle,null, null)
         }
