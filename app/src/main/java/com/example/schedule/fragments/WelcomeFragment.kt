@@ -21,18 +21,24 @@ class WelcomeFragment : Fragment() {
         _binding = FragmentWelcomeBinding.inflate(inflater, container, false)
 
         var bundle = Bundle()
+        val sp = context?.getSharedPreferences("PreferencesData", Context.MODE_PRIVATE)
 
         binding.button.setOnClickListener {
             if (binding.checkBox.isChecked) {
                 Navigation.findNavController(binding.root).navigate(R.id.action_welcomeFragment_to_registrationFragment)
             }
             if (binding.checkBox3.isChecked) {
-                val sp = context?.getSharedPreferences("PreferencesData", Context.MODE_PRIVATE)
                 bundle.putString("name", sp?.getString("name", "Иван"))
                 bundle.putString("group", sp?.getString("group", "11-101"))
 
                 Navigation.findNavController(binding.root).navigate(R.id.action_welcomeFragment_to_dayOfWeekFragment, bundle)
             }
+        }
+
+        binding.button2.setOnClickListener {
+            val editor = sp?.edit()
+            editor?.clear()
+            Navigation.findNavController(binding.root).navigate(R.id.action_welcomeFragment_to_registrationFragment)
         }
 
         return binding.root
